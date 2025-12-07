@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Types
 type ActivityType = 'Gym' | 'Cardio' | 'Zumba' | 'Yoga';
 
 interface Session {
@@ -19,7 +18,6 @@ interface DaySchedule {
     sessions: Session[];
 }
 
-// Mock Data
 const weeklyData: DaySchedule[] = [
     {
         day: 'Monday',
@@ -132,15 +130,15 @@ const Schedule: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-[#0d1216] p-4 md:p-8 font-sans text-white">
-            {/* --- CONSISTENT HEADER --- */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-gray-800 pb-4 max-w-6xl mx-auto w-full">
                 <div className="flex items-center gap-2 mb-4 md:mb-0 cursor-pointer" onClick={() => navigate('/dashboard')}>
                     <span className="text-green-500 text-3xl font-bold">⚡ FitTrack Pro</span>
                 </div>
-                <div className="flex gap-6 items-center">
+                <div className="flex flex-wrap gap-4 md:gap-6 items-center justify-center">
+                    <button onClick={() => navigate('/dashboard')} className="text-gray-300 hover:text-green-500 transition font-medium">Profile</button>
+                    <button onClick={() => navigate('/workouts')} className="text-gray-300 hover:text-green-500 transition font-medium">Workouts</button>
                     <button className="text-green-500 font-bold border-b-2 border-green-500">Classes</button>
                     <button onClick={() => navigate('/plans')} className="text-gray-300 hover:text-green-500 transition font-medium">Plans</button>
-                    <button onClick={() => navigate('/dashboard')} className="text-gray-300 hover:text-green-500 transition font-medium">Profile</button>
                     <button onClick={handleLogout} className="bg-red-500/10 text-red-500 px-4 py-1.5 rounded hover:bg-red-500/20 transition text-sm font-bold ml-2">Logout</button>
                 </div>
             </div>

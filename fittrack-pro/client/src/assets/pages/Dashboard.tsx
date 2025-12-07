@@ -19,7 +19,6 @@ const Dashboard: React.FC = () => {
     const [editForm, setEditForm] = useState({ height: 0, weight: 0, bodyFat: 0 });
     const [successMsg, setSuccessMsg] = useState('');
 
-    // Use environment variable
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     useEffect(() => {
@@ -28,7 +27,6 @@ const Dashboard: React.FC = () => {
             if (!token) { navigate('/login'); return; }
 
             try {
-                // Updated URL
                 const res = await axios.get(`${API_URL}/api/users/profile`, {
                     headers: { 'x-auth-token': token }
                 });
@@ -50,7 +48,6 @@ const Dashboard: React.FC = () => {
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('token');
-            // Updated URL
             const res = await axios.put(`${API_URL}/api/users/profile`, editForm, {
                 headers: { 'x-auth-token': token }
             });
@@ -79,10 +76,11 @@ const Dashboard: React.FC = () => {
                 <div className="flex items-center gap-2 mb-4 md:mb-0 cursor-pointer" onClick={() => navigate('/dashboard')}>
                     <span className="text-green-500 text-3xl font-bold">⚡ FitTrack Pro</span>
                 </div>
-                <div className="flex gap-6 items-center">
+                <div className="flex flex-wrap gap-4 md:gap-6 items-center justify-center">
+                    <button className="text-green-500 font-bold border-b-2 border-green-500">Profile</button>
+                    <button onClick={() => navigate('/workouts')} className="text-gray-300 hover:text-green-500 transition font-medium">Workouts</button>
                     <button onClick={() => navigate('/schedule')} className="text-gray-300 hover:text-green-500 transition font-medium">Classes</button>
                     <button onClick={() => navigate('/plans')} className="text-gray-300 hover:text-green-500 transition font-medium">Plans</button>
-                    <button className="text-green-500 font-bold border-b-2 border-green-500">Profile</button>
                     <button onClick={handleLogout} className="bg-red-500/10 text-red-500 px-4 py-1.5 rounded hover:bg-red-500/20 transition text-sm font-bold ml-2">Logout</button>
                 </div>
             </div>

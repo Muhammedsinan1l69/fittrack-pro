@@ -4,7 +4,8 @@ import Login from './components/Login';
 import Plans from './components/Plans';
 import Dashboard from './assets/pages/Dashboard';
 import AdminDashboard from './assets/pages/AdminDashboard';
-import Schedule from './assets/pages/Schedule'; // <--- IMPORT THIS
+import Schedule from './assets/pages/Schedule';
+import Workouts from './assets/pages/Workouts';
 
 function App() {
   return (
@@ -18,9 +19,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/admin" element={<AdminDashboard />} /> 
         <Route path="/plans" element={<Plans />} />
-        
-        {/* NEW ROUTE */}
         <Route path="/schedule" element={<Schedule />} /> 
+        <Route path="/workouts" element={<Workouts />} />
       </Routes>
     </Router>
   );

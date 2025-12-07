@@ -8,8 +8,8 @@ const Login: React.FC = () => {
         email: '',
         password: '',
     });
+    const [loading, setLoading] = useState(false);
 
-    // Use environment variable, fallback to localhost if not set
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,8 +18,8 @@ const Login: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            // Updated URL
             const response = await axios.post(`${API_URL}/api/users/login`, formData);
             const { token } = response.data;
             localStorage.setItem('token', token);
@@ -27,17 +27,19 @@ const Login: React.FC = () => {
             navigate('/dashboard'); 
         } catch (err) {
             const error = err as AxiosError<{ message: string }>;
-            const message = error.response?.data?.message || 'Login failed';
+            const message = error.response?.data?.message || 'Login failed. Please check your connection.';
             alert(message);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const inputClasses = "w-full bg-[#1c2a26] border border-[#2d403a] rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors";
+    const inputClasses = "w-full bg-[#1c2a26] border border-[#2d403a] rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors appearance-none";
     const labelClasses = "block text-gray-200 text-sm font-bold mb-2";
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="w-full max-w-md">
+        <div className="min-h-[100dvh] flex items-center justify-center p-4 overflow-y-auto">
+            <div className="w-full max-w-md my-auto">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold text-white mb-2">
                         <span className="text-green-500 text-4xl mr-2">⚡</span>
@@ -76,8 +78,12 @@ const Login: React.FC = () => {
                         />
                     </div>
 
-                    <button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded-lg transition-colors">
-                        Log In
+                    <button 
+                        type="submit" 
+                        disabled={loading}
+                        className={`w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded-lg transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                        {loading ? 'Logging in...' : 'Log In'}
                     </button>
                 </form>
 

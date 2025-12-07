@@ -11,15 +11,15 @@ const Plans: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0d1216] text-white p-4 md:p-8 font-sans">
-        {/* --- CONSISTENT HEADER --- */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-gray-800 pb-4 max-w-6xl mx-auto w-full">
             <div className="flex items-center gap-2 mb-4 md:mb-0 cursor-pointer" onClick={() => navigate('/dashboard')}>
                 <span className="text-green-500 text-3xl font-bold">⚡ FitTrack Pro</span>
             </div>
-            <div className="flex gap-6 items-center">
+            <div className="flex flex-wrap gap-4 md:gap-6 items-center justify-center">
+                <button onClick={() => navigate('/dashboard')} className="text-gray-300 hover:text-green-500 transition font-medium">Profile</button>
+                <button onClick={() => navigate('/workouts')} className="text-gray-300 hover:text-green-500 transition font-medium">Workouts</button>
                 <button onClick={() => navigate('/schedule')} className="text-gray-300 hover:text-green-500 transition font-medium">Classes</button>
                 <button className="text-green-500 font-bold border-b-2 border-green-500">Plans</button>
-                <button onClick={() => navigate('/dashboard')} className="text-gray-300 hover:text-green-500 transition font-medium">Profile</button>
                 <button onClick={handleLogout} className="bg-red-500/10 text-red-500 px-4 py-1.5 rounded hover:bg-red-500/20 transition text-sm font-bold ml-2">Logout</button>
             </div>
         </div>
@@ -29,7 +29,6 @@ const Plans: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full">
                 
-                {/* Standard Plan */}
                 <div className="bg-[#151f1b] border border-gray-700 rounded-2xl p-8 flex flex-col hover:border-gray-500 transition">
                     <h2 className="text-xl font-bold mb-2">Standard Membership</h2>
                     <div className="mb-6">
@@ -50,7 +49,6 @@ const Plans: React.FC = () => {
                     <button className="w-full py-3 rounded-lg bg-[#2d3834] text-gray-300 hover:bg-gray-700 transition font-bold">Select Standard</button>
                 </div>
 
-                {/* Plus Plan */}
                 <div className="bg-[#151f1b] border border-green-500 rounded-2xl p-8 flex flex-col relative overflow-hidden transform md:scale-105 shadow-2xl shadow-green-900/20">
                     <div className="absolute top-0 right-0 bg-green-500 text-black text-xs font-bold px-3 py-1 rounded-bl-lg">Most Popular</div>
                     
@@ -74,7 +72,6 @@ const Plans: React.FC = () => {
                 </div>
             </div>
 
-            {/* FAQ Section */}
             <div className="mt-16 max-w-3xl w-full">
                 <h3 className="text-2xl font-bold mb-6">Frequently Asked Questions</h3>
                 <div className="space-y-4">
@@ -85,7 +82,6 @@ const Plans: React.FC = () => {
                         </div>
                         <p className="text-green-500/80 text-sm mt-2">Yes, you can cancel your membership at any time through your account settings.</p>
                     </div>
-                     {/* Mock FAQs */}
                      {['What payment methods are accepted?', 'How do I get my diet plan?'].map((q, i) => (
                          <div key={i} className="border-b border-gray-800 pb-4 flex justify-between items-center cursor-pointer">
                             <span className="font-semibold">{q}</span>
