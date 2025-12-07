@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 interface User {
     _id: string;
@@ -18,8 +19,6 @@ const Dashboard: React.FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState({ height: 0, weight: 0, bodyFat: 0 });
     const [successMsg, setSuccessMsg] = useState('');
-
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -43,7 +42,7 @@ const Dashboard: React.FC = () => {
             }
         };
         fetchProfile();
-    }, [navigate, API_URL]);
+    }, [navigate]);
 
     const handleSave = async () => {
         try {
@@ -65,7 +64,7 @@ const Dashboard: React.FC = () => {
         navigate('/login');
     };
 
-    if (!user) return <div className="min-h-screen bg-[#0d1216] text-white flex items-center justify-center">Loading...</div>;
+    if (!user) return <div className="min-h-screen bg-[#0d1216] text-white flex items-center justify-center">Loading Profile...</div>;
 
     const heightInM = editForm.height / 100;
     const bmi = heightInM > 0 ? (editForm.weight / (heightInM * heightInM)).toFixed(1) : 'N/A';

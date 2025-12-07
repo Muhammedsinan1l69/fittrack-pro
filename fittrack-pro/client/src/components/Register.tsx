@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -12,9 +13,7 @@ const Register: React.FC = () => {
         gender: 'Male',
         contactNumber: ''
     });
-
-    // Use environment variable
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,24 +21,26 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            // Updated URL
             await axios.post(`${API_URL}/api/users/register`, formData);
             alert('Registration successful! Please login.');
             navigate('/login');
         } catch (error: any) {
             console.error(error);
-            const message = error.response?.data?.message || 'Error registering';
+            const message = error.response?.data?.message || 'Error registering. Check server connection.';
             alert(message);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const inputClasses = "w-full bg-[#1c2a26] border border-[#2d403a] rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors";
+    const inputClasses = "w-full bg-[#1c2a26] border border-[#2d403a] rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors appearance-none";
     const labelClasses = "block text-gray-200 text-sm font-bold mb-2";
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="w-full max-w-md">
+        <div className="min-h-[100dvh] flex items-center justify-center p-4 overflow-y-auto">
+            <div className="w-full max-w-md my-auto pt-10 pb-10">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold text-white mb-2">
                         <span className="text-green-500 text-4xl mr-2">⚡</span>
@@ -84,11 +85,15 @@ const Register: React.FC = () => {
 
                     <div>
                         <label className={labelClasses}>Contact Number</label>
-                        <input type="text" name="contactNumber" placeholder="+1 (555) 000-0000" className={inputClasses} onChange={handleChange} required />
+                        <input type="tel" name="contactNumber" placeholder="+1 (555) 000-0000" className={inputClasses} onChange={handleChange} required />
                     </div>
 
-                    <button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded-lg transition-colors mt-6">
-                        Create Account
+                    <button 
+                        type="submit" 
+                        disabled={loading}
+                        className={`w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded-lg transition-colors mt-6 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                        {loading ? 'Creating...' : 'Create Account'}
                     </button>
                 </form>
 

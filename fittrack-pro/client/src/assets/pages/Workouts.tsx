@@ -12,6 +12,7 @@ interface WorkoutLog {
 
 const Workouts: React.FC = () => {
     const navigate = useNavigate();
+    // Temporary local state for logs (You can wire this to a backend endpoint later)
     const [logs, setLogs] = useState<WorkoutLog[]>([
         { id: 1, date: '2023-10-24', exercise: 'Bench Press', weight: 60, reps: 10, sets: 3 },
         { id: 2, date: '2023-10-24', exercise: 'Squats', weight: 80, reps: 8, sets: 4 },
@@ -66,6 +67,7 @@ const Workouts: React.FC = () => {
 
             <div className="max-w-6xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Input Form */}
                     <div className="lg:col-span-1">
                         <div className="bg-[#151f1b] p-6 rounded-2xl border border-gray-800 sticky top-4">
                             <h2 className="text-xl font-bold mb-4">Log Set</h2>
@@ -119,12 +121,13 @@ const Workouts: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* History List */}
                     <div className="lg:col-span-2">
                         <h2 className="text-2xl font-bold mb-6">Recent History</h2>
                         <div className="space-y-4">
                             {logs.map((log) => (
-                                <div key={log.id} className="bg-[#1c2a26] p-4 rounded-xl border border-[#2d403a] flex justify-between items-center">
-                                    <div>
+                                <div key={log.id} className="bg-[#1c2a26] p-4 rounded-xl border border-[#2d403a] flex flex-col sm:flex-row justify-between items-center gap-4">
+                                    <div className="text-center sm:text-left">
                                         <div className="text-xs text-green-500 font-bold mb-1">{log.date}</div>
                                         <h3 className="text-lg font-bold text-white">{log.exercise}</h3>
                                     </div>

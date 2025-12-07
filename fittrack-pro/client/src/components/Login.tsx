@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -10,8 +11,6 @@ const Login: React.FC = () => {
     });
     const [loading, setLoading] = useState(false);
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -20,14 +19,16 @@ const Login: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
+            console.log("Attempting login to:", `${API_URL}/api/users/login`);
             const response = await axios.post(`${API_URL}/api/users/login`, formData);
             const { token } = response.data;
             localStorage.setItem('token', token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             navigate('/dashboard'); 
         } catch (err) {
+            console.error(err);
             const error = err as AxiosError<{ message: string }>;
-            const message = error.response?.data?.message || 'Login failed. Please check your connection.';
+            const message = error.response?.data?.message || 'Login failed. Server connection issue.';
             alert(message);
         } finally {
             setLoading(false);
@@ -90,14 +91,6 @@ const Login: React.FC = () => {
                 <p className="text-center text-gray-400 mt-6">
                     Don't have an account? <Link to="/register" className="text-green-500 font-bold hover:underline">Register</Link>
                 </p>
-
-                <div className="mt-8 pt-6 border-t border-gray-800 text-center">
-                    <p className="text-gray-500 text-sm mb-3">For Demo Purposes Only:</p>
-                    <Link to="/admin" className="inline-block bg-gray-800 text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
-                        View Admin Dashboard
-                    </Link>
-                </div>
-
             </div>
         </div>
     );
