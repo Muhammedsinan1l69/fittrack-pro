@@ -7,8 +7,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Update CORS to allow requests from anywhere (Mobile/Netlify)
 app.use(cors({
-  origin: '*',
+  origin: '*', 
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization']
 }));
